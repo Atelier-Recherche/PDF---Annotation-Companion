@@ -1,0 +1,21 @@
+/* Overrides globaux pour le panneau PDF++ Annotation Companion */
+
+.pdf-annotation-siderail-root .header-row {
+  display: grid !important;
+  grid-template-columns: auto 1fr auto !important;
+}
+
+.pdf-annotation-siderail-root .annotation-item {
+  border: 2px solid var(--background-modifier-border) !important;
+}
+
+.pdf-annotation-siderail-root .annotation-note-icon {
+  --icon-size: 12px !important;
+}
+
+.pdf-annotation-siderail-root .annotation-note-icon svg {
+  width: 12px !important;
+  height: 12px !important;
+  min-width: 12px !important;
+  min-height: 12px !important;
+}

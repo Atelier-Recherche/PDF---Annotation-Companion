@@ -1,0 +1,22 @@
+{
+  "name": "pdf-annotation-companion",
+  "version": "0.1.0",
+  "description": "Compagnon PDF++ pour Obsidian : vue latérale listant et pilotant les annotations du PDF actif.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production"
+  },
+  "author": "Gabu",
+  "license": "MIT",
+  "devDependencies": {
+    "@cantoo/pdf-lib": "^2.4.3",
+    "@types/node": "^24.3.0",
+    "esbuild": "^0.27.3",
+    "esbuild-svelte": "^0.9.4",
+    "obsidian": "latest",
+    "svelte": "^4.2.0",
+    "tslib": "2.8.1",
+    "typescript": "5.x"
+  }
+}

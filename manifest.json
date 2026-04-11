@@ -1,0 +1,11 @@
+{
+  "id": "pdf-annotation-companion",
+  "name": "PDF++ Annotation Companion",
+  "version": "0.1.0",
+  "minAppVersion": "1.7.0",
+  "description": "Vue latérale pour naviguer dans les annotations PDF++ du PDF actif.",
+  "author": "Gabu",
+  "authorUrl": "",
+  "isDesktopOnly": false,
+  "styles": ["main.css"]
+}
