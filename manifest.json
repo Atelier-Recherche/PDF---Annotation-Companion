@@ -7,5 +7,5 @@
   "author": "Gabu",
   "authorUrl": "",
   "isDesktopOnly": false,
-  "styles": ["main.css"]
+  "styles": ["styles.css"]
 }

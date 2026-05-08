@@ -15,6 +15,10 @@ export class PdfAnnotationSiderailView extends ItemView {
   private currentPage = 1;
   private pageCount = 1;
   private annotations: AnnotationItem[] = [];
+  private isLoading = false;
+  private loadingProgress = 0;
+  private loadingLabel = 'Chargement des annotations...';
+  private refreshSeq = 0;
 
   constructor(leaf: WorkspaceLeaf, plugin: PdfAnnotationCompanionPlugin) {
     super(leaf);
@@ -46,6 +50,9 @@ export class PdfAnnotationSiderailView extends ItemView {
         mode: this.mode,
         currentPage: this.currentPage,
         pageCount: this.pageCount,
+        isLoading: this.isLoading,
+        loadingProgress: this.loadingProgress,
+        loadingLabel: this.loadingLabel,
         onSelectAnnotation: (annot: AnnotationItem) => this.onSelectAnnotation(annot),
         onToggleMode: (mode: AnnotationMode) => this.onToggleMode(mode),
         onExportMarkdown: () => this.onExportMarkdown(),
@@ -68,20 +75,39 @@ export class PdfAnnotationSiderailView extends ItemView {
   }
 
   async refreshFromCurrentPdf() {
+    const seq = ++this.refreshSeq;
+    this.isLoading = true;
+    this.loadingProgress = 10;
+    this.loadingLabel = 'Lecture du PDF...';
+    this.updateProps();
+
     const child = this.getCurrentPdfChild();
     if (!child || !this.plugin.annotations) {
+      if (seq !== this.refreshSeq) return;
       this.annotations = [];
       this.currentPage = 1;
       this.pageCount = 1;
+      this.isLoading = false;
+      this.loadingProgress = 100;
+      this.loadingLabel = 'Termine';
       this.updateProps();
       return;
     }
 
+    this.loadingProgress = 45;
+    this.loadingLabel = 'Extraction des annotations...';
+    this.updateProps();
+
     const entry = await this.plugin.annotations.getAnnotationsForViewer(child);
+    if (seq !== this.refreshSeq) return;
+
     if (!entry) {
       this.annotations = [];
       this.currentPage = 1;
       this.pageCount = 1;
+      this.isLoading = false;
+      this.loadingProgress = 100;
+      this.loadingLabel = 'Termine';
       this.updateProps();
       return;
     }
@@ -98,6 +124,9 @@ export class PdfAnnotationSiderailView extends ItemView {
       this.annotations = entry.annotations;
     }
 
+    this.isLoading = false;
+    this.loadingProgress = 100;
+    this.loadingLabel = 'Termine';
     this.updateProps();
   }
 
@@ -107,7 +136,10 @@ export class PdfAnnotationSiderailView extends ItemView {
       annotations: this.annotations,
       mode: this.mode,
       currentPage: this.currentPage,
-      pageCount: this.pageCount
+      pageCount: this.pageCount,
+      isLoading: this.isLoading,
+      loadingProgress: this.loadingProgress,
+      loadingLabel: this.loadingLabel
     });
   }
 

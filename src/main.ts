@@ -64,7 +64,7 @@ export default class PdfAnnotationCompanionPlugin extends Plugin {
 
     this.registerEvent(
       workspace.on('active-leaf-change', () => {
-        this.updateCurrentPdfFromActiveLeaf();
+        void this.updateCurrentPdfFromActiveLeaf();
       })
     );
 
@@ -73,21 +73,23 @@ export default class PdfAnnotationCompanionPlugin extends Plugin {
         this.pdfPlus.on('highlight', () => {
           if (this.currentPdf && this.annotations) {
             this.annotations.clearForFile(this.currentPdf.file);
+            void this.refreshOpenSiderails();
           }
         })
       );
     }
 
     this.app.workspace.onLayoutReady(() => {
-      this.updateCurrentPdfFromActiveLeaf();
+      void this.updateCurrentPdfFromActiveLeaf();
     });
   }
 
-  private updateCurrentPdfFromActiveLeaf() {
+  private async updateCurrentPdfFromActiveLeaf() {
     const workspace: any = this.app.workspace;
     const view = workspace.getActiveFileView?.();
     if (!view) {
       this.currentPdf = null;
+      await this.refreshOpenSiderails();
       return;
     }
 
@@ -103,6 +105,20 @@ export default class PdfAnnotationCompanionPlugin extends Plugin {
     } else {
       this.currentPdf = null;
     }
+
+    await this.refreshOpenSiderails();
+  }
+
+  private async refreshOpenSiderails() {
+    const leaves = this.app.workspace.getLeavesOfType(SIDERAIL_VIEW_TYPE);
+    await Promise.all(
+      leaves.map(async (leaf) => {
+        const view = leaf.view;
+        if (view instanceof PdfAnnotationSiderailView) {
+          await view.refreshFromCurrentPdf();
+        }
+      })
+    );
   }
 
   async toggleSiderail() {

@@ -1,5 +1,6 @@
 import esbuild from 'esbuild';
 import sveltePlugin from 'esbuild-svelte';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -27,8 +28,18 @@ const options = {
   }
 };
 
-esbuild.build(options).catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+esbuild.build(options)
+  .then(() => {
+    const mainCssPath = path.join(__dirname, 'main.css');
+    const stylesCssPath = path.join(__dirname, 'styles.css');
+
+    if (fs.existsSync(mainCssPath)) {
+      fs.copyFileSync(mainCssPath, stylesCssPath);
+      console.log('Copied main.css -> styles.css');
+    }
+  })
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
 

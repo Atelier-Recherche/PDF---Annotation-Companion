@@ -6,6 +6,9 @@
   export let mode = 'global';
   export let currentPage = 1;
   export let pageCount = 1;
+  export let isLoading = false;
+  export let loadingProgress = 0;
+  export let loadingLabel = 'Chargement des annotations...';
 
   export let onSelectAnnotation;
   export let onToggleMode;
@@ -86,6 +89,14 @@
   </header>
 
   <main class="siderail-list" tabindex="0">
+    {#if isLoading}
+      <div class="loading-state">
+        <div class="loading-label">{loadingLabel}</div>
+        <div class="loading-track" role="progressbar" aria-valuenow={Math.round(loadingProgress)} aria-valuemin="0" aria-valuemax="100">
+          <div class="loading-fill" style={`width: ${Math.max(8, Math.min(100, loadingProgress))}%`}></div>
+        </div>
+      </div>
+    {/if}
     {#if annotations.length === 0}
       <div class="empty-message">
         Aucune annotation à afficher.
@@ -133,24 +144,26 @@
   .siderail-header {
     padding: 6px 8px;
     border-bottom: 1px solid var(--background-modifier-border);
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
     gap: 8px;
     min-width: 0;
   }
 
   .siderail-header.header-row {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 8px !important;
   }
 
   .mode-toggle {
     display: inline-flex;
     flex-shrink: 0;
+    flex-wrap: nowrap;
     gap: 2px;
+    white-space: nowrap;
   }
 
   .mode-toggle .header-btn {
@@ -168,14 +181,17 @@
   .search-row {
     display: flex;
     align-items: center;
+    flex-wrap: nowrap;
     gap: 6px;
     flex: 1;
     min-width: 0;
+    white-space: nowrap;
   }
 
   .search-row input {
-    flex: 1;
-    min-width: 0;
+    flex: 1 1 0;
+    width: 100%;
+    min-width: 0 !important;
     padding: 6px 8px;
     border-radius: 6px;
     border: 1px solid var(--background-modifier-border);
@@ -193,7 +209,9 @@
     display: flex;
     flex-shrink: 0;
     align-items: center;
+    flex-wrap: nowrap;
     gap: 6px;
+    white-space: nowrap;
   }
 
   .export-btn {
@@ -208,12 +226,42 @@
   .page-indicator {
     font-size: 12px;
     color: var(--text-muted);
+    white-space: nowrap;
   }
 
   .siderail-list {
     flex: 1;
     overflow-y: auto;
     padding: 4px 0;
+  }
+
+  .loading-state {
+    padding: 8px 10px;
+    margin: 0 8px 8px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 8px;
+    background: var(--background-secondary);
+  }
+
+  .loading-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .loading-track {
+    width: 100%;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--background-modifier-border);
+    overflow: hidden;
+  }
+
+  .loading-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: var(--interactive-accent);
+    transition: width 180ms ease;
   }
 
   .annotation-item {
@@ -317,10 +365,25 @@
 
   /* Overrides globaux pour forcer header sur une ligne et cadre visible */
   :global(.pdf-annotation-siderail-root .siderail-header) {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr) auto !important;
     align-items: center !important;
+    gap: 8px !important;
+  }
+
+  :global(.pdf-annotation-siderail-root .siderail-header > *) {
+    min-width: 0 !important;
+  }
+
+  :global(.pdf-annotation-siderail-root .search-row) {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    min-width: 0 !important;
+  }
+
+  :global(.pdf-annotation-siderail-root .search-row input) {
+    min-width: 0 !important;
+    width: 100% !important;
   }
 
   :global(.pdf-annotation-siderail-root .annotation-item) {
