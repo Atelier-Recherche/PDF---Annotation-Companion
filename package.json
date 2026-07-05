@@ -1,11 +1,12 @@
 {
   "name": "pdf-annotation-companion",
   "version": "0.1.0",
-  "description": "Compagnon PDF++ pour Obsidian : vue latérale listant et pilotant les annotations du PDF actif.",
+  "description": "Compagnon PDF++ : vue latérale listant et pilotant les annotations du PDF actif.",
   "main": "main.js",
   "scripts": {
     "dev": "node esbuild.config.mjs",
-    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production"
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+    "version": "node version-bump.mjs && git add manifest.json versions.json"
   },
   "author": "Gabu",
   "license": "MIT",

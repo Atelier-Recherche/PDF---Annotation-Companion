@@ -35,3 +35,13 @@ Le build génère le fichier `main.js` à la racine du plugin.
 2. Redémarrer Obsidian ou recharger les plugins (`Ctrl+P` → « Reload app without saving »).
 3. Activer **PDF++ Annotation Companion** dans les paramètres → Plugins communautaires.
 
+## Catalogue Obsidian
+
+- **ID plugin** : `pdf-annotation-companion`
+- **Dépôt** : [github.com/Morglaf/PDF---Annotation-Companion](https://github.com/Morglaf/PDF---Annotation-Companion)
+- **Licence** : MIT — [LICENSE](LICENSE)
+- **Réseau** : non — lit les annotations via l’API du plugin PDF++ déjà installé
+- **Dépendance** : [PDF++](https://github.com/RyotaUshio/obsidian-pdf-plus) (`obsidian-pdf-plus`) doit être installé et activé
+- **Télémétrie / mise à jour auto** : non
+- **Release** : `.\Release-Plugin.ps1`
+
