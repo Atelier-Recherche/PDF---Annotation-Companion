@@ -1,3 +1,3 @@
-# PDF++ Annotation Companion 0.1.1
+# PDF++ Annotation Companion 0.1.2
 
-68b80cf Add release infrastructure and Obsidian store compliance
+e36e3a6 fix(release): checkout explicite du tag et git add -f main.js

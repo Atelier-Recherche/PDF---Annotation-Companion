@@ -1,6 +1,6 @@
 {
   "name": "pdf-annotation-companion",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Compagnon PDF++ : vue latérale listant et pilotant les annotations du PDF actif.",
   "main": "main.js",
   "scripts": {
