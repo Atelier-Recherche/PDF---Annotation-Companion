@@ -12,7 +12,7 @@ $ErrorActionPreference = 'Stop'
 
 $ReleaseNotesFile = 'pdf-annotation-companion-release-notes.md'
 $ReleaseNotesTitle = 'PDF++ Annotation Companion'
-$GhActionsUrl = 'https://github.com/Morglaf/PDF---Annotation-Companion/actions'
+$GhActionsUrl = 'https://github.com/Atelier-Recherche/PDF---Annotation-Companion/actions'
 $IncludeMainJsInCommit = $true
 
 function Test-CommandExists {
@@ -97,7 +97,7 @@ if (-not (Test-Path main.js)) { throw 'main.js absent après build.' }
 if ($LASTEXITCODE -eq 0) { throw "Tag $newVersion existe déjà." }
 
 & git add package.json manifest.json versions.json styles.css $ReleaseNotesFile
-if ($IncludeMainJsInCommit) { & git add main.js }
+if ($IncludeMainJsInCommit) { & git add -f main.js }
 
 & git commit -m "release(plugin): $newVersion"
 & git tag -a $newVersion -m $newVersion
